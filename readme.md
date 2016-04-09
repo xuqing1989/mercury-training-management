@@ -1,18 +1,13 @@
 1 User
   1.1 Role
-    1.1.1 Admin of System
-      1.1.1.2 Add, edit and remove users
-    1.1.2 Admin of Batches
-      See 2.1
+    1.1.1 Admin
+      1.1.1.2 Add, edit and remove users and batches
     1.1.3 Teacher
       1.1.3.1 Change password
     1.1.4 Student
       1.1.4.1 Change password
 
 2 Batch
-  2.1 Admin of the Batch
-    2.1.1 Add and Remove Student from Batch
-    2.1.2 Add and Remove Teacher from Batch
   2.2 Schedule
     2.2.1 Check-In and Check-Out
     2.2.2 Training Material (HTML or Plain text)

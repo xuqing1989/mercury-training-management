@@ -8,21 +8,23 @@
     <link rel="stylesheet" href="stylesheets/style.css">
 </head>
 
-<body class="login-body">
+<body class="login-body" ng-app='login'>
     <div>
-        <form class="login-form col-lg-4 col-xs-10 center-block">
+        <form class="login-form col-lg-4 col-xs-10 center-block" ng-controller='loginCtrl'>
             <div class="row login-title">Mercury System</div>
             <div class="row">
-                <input placeholder="Email">
+                <input placeholder="Email" ng-model="user.email">
             </div>
             <div class="row">
-                <input placeholder="Password" type="password">
+                <input placeholder="Password" type="password" ng-model="user.password">
             </div>
             <div class="row">
-                <button class="btn btn-primary">Log In</button>
+                <button class="btn btn-primary" ng-click="login(user)">Log In</button>
+                <button class="btn btn-primary" ng-click="logout(user)">Log Out</button>
             </div>
         </form>
     </div>
+    <script src="javascripts/login.js"></script>
 </body>
 
 </html>
