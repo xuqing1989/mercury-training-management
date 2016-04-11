@@ -7,12 +7,15 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var app = express();
+var bodyParser = require( 'body-parser' );
+app.use( bodyParser.urlencoded({ extended: true }) );
 var passport = require('passport');
 var expressSession = require('express-session');
 app.use(expressSession({
     secret: 'QINGXUISAWESOME',
     resave: false,
     saveUninitialized: true,
+    cookie: { maxAge: 24 * 60 * 60 * 1000 },
 }));
 var User = require('./models/users');
 
@@ -43,6 +46,7 @@ passport.deserializeUser(function(id, done) {
 });
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(require('./routes/auth'));
 app.use('/', routes);
 app.use('/api',require('./routes/api'));
 

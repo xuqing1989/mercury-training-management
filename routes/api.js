@@ -1,19 +1,15 @@
 var router = require('express').Router();
 var User = require('../models/users');
+var passport = require('passport');
 
 router.post('/login',function(req,res,next){
-    User.findOne(req.body).exec(function(err,result){
-        return result;
-    }).then(function(user){
-        if(user) {
-            req.login(user, function(){
-                res.json(req.user);
-            });
-        }
-        else {
-            res.json({msg:'wrong'});
-        }
-    });
+    passport.authenticate('login', function(err, user, info) {
+        console.log('apijs: ', err,user,info);
+        if (!user) return res.json({msg:'wrong'});
+        else return req.login(user, function(){
+            res.json({msg:'success'});
+        });
+    })(req, res, next);
 });
 
 router.delete('/login',function(req,res,next){
