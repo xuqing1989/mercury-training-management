@@ -8,6 +8,7 @@ module.exports = function(req,res,next) {
         req.body.email = req.user.email;
         req.body.password = req.user.password;
     }
+
     passport.use('login', new LocalStrategy({
         usernameField: 'email',
         passwordField: 'password',
@@ -24,12 +25,24 @@ module.exports = function(req,res,next) {
             }
         });
     }));
+
     passport.use('isLogin', new LocalStrategy({
         usernameField: 'email',
         passwordField: 'password',
         passReqToCallback: true,
     },function(req,usr,pwd,done){
         return done(null, req.user);
+    }));
+
+    passport.use('isAdmin', new LocalStrategy({
+        usernameField: 'email',
+        passwordField: 'password',
+        passReqToCallback: true,
+    },function(req,usr,pwd,done){
+        if(req.user.role='Admin') {
+            return done(null, true);
+        }
+        return done(null,false);
     }));
     next();
 };

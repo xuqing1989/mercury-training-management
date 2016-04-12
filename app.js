@@ -22,7 +22,7 @@ var User = require('./models/users');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -49,6 +49,7 @@ app.use(passport.session());
 app.use(require('./routes/auth'));
 app.use('/', routes);
 app.use('/api',require('./routes/api'));
+app.use('/view',require('./routes/view'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

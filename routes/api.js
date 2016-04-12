@@ -18,4 +18,8 @@ router.delete('/login',function(req,res,next){
 });
 
 
+router.get('/currentuser',function(req,res,next){
+    res.json(req.user);
+});
+
 module.exports = router;
