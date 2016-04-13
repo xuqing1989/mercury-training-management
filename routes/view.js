@@ -7,10 +7,10 @@ router.get('/userlist',function(req,res,next){
     passport.authenticate('isAdmin', function(err, result) {
         if(result){
             var teaList, stuList;
-            User.find({role:'Teacher'}).exec(function(err,queryData){
+            User.find({role:'teacher'}).exec(function(err,queryData){
                 teaList = queryData;
             });
-            User.find({role:'Student'}).exec(function(err,queryData){
+            User.find({role:'student'}).exec(function(err,queryData){
                 stuList = queryData;
             })
             .then(function(){

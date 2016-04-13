@@ -15,7 +15,7 @@
     <div class="box">
       <div class="box-header">
           <h3 class="box-title">Teacher List</h3>
-          <button class="btn btn-sm btn-default" ng-click="userWindow()"><i class="fa fa-plus"></i></button>
+          <button class="btn btn-sm btn-default" ng-click="addTeaModal()"><i class="fa fa-plus"></i></button>
       </div><!-- /.box-header -->
       <div class="box-body table-responsive no-padding">
         <table class="table table-hover">
@@ -53,7 +53,7 @@
             <th>Email</th>
             <th>Operations</th>
           </tr>
-          <% for(var key in teaList) { %>
+          <% for(var key in stuList) { %>
           <tr>
             <td><%= stuList[key].name %></td>
             <td><%= stuList[key].email %></td>

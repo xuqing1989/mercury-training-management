@@ -5,16 +5,16 @@ var User = require('../models/users');
 
 module.exports = function(req,res,next) {
     if(req.user) {
-        req.body.email = req.user.email;
-        req.body.password = req.user.password;
+        req.body.authemail = req.user.email;
+        req.body.authpassword = req.user.password;
     }
 
     passport.use('login', new LocalStrategy({
-        usernameField: 'email',
-        passwordField: 'password',
+        usernameField: 'authemail',
+        passwordField: 'authpassword',
         passReqToCallback: true,
     },function(req,usr,pwd,done){
-        User.findOne(req.body).exec(function(err,result){
+        User.findOne({email:usr,password:pwd}).exec(function(err,result){
             return result;
         }).then(function(user){
             if(user) {
@@ -27,16 +27,16 @@ module.exports = function(req,res,next) {
     }));
 
     passport.use('isLogin', new LocalStrategy({
-        usernameField: 'email',
-        passwordField: 'password',
+        usernameField: 'authemail',
+        passwordField: 'authpassword',
         passReqToCallback: true,
     },function(req,usr,pwd,done){
         return done(null, req.user);
     }));
 
     passport.use('isAdmin', new LocalStrategy({
-        usernameField: 'email',
-        passwordField: 'password',
+        usernameField: 'authemail',
+        passwordField: 'authpassword',
         passReqToCallback: true,
     },function(req,usr,pwd,done){
         if(req.user.role='Admin') {

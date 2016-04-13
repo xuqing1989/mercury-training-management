@@ -22,4 +22,9 @@ router.get('/currentuser',function(req,res,next){
     res.json(req.user);
 });
 
+router.post('/adduser',function(req,res,next){
+    User.collection.insert(req.body);
+    res.json({msg:'success'});
+});
+
 module.exports = router;
