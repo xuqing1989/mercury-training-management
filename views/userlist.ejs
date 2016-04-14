@@ -30,7 +30,7 @@
             <td><%= teaList[key].email %></td>
             <td>
                 <button class="btn btn-sm btn-default"><i class="fa fa-edit"></i></button>
-                <button class="btn btn-sm btn-default"><i class="fa fa-remove"></i></button>
+                <button class="btn btn-sm btn-default" ng-click="removeTea('<%= teaList[key]._id%>')"><i class="fa fa-remove"></i></button>
             </td>
           </tr>
           <% } %>

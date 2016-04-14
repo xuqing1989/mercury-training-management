@@ -23,8 +23,23 @@ router.get('/currentuser',function(req,res,next){
 });
 
 router.post('/adduser',function(req,res,next){
-    User.collection.insert(req.body);
-    res.json({msg:'success'});
+    passport.authenticate('isAdmin', function(err, result) {
+        if(result){
+            User.collection.insert(req.body);
+            res.json({msg:'success'});
+        }
+        else res.json({msg:'unauthorized!'});
+    })(req, res, next);
+});
+
+router.post('/deluser',function(req,res,next){
+    passport.authenticate('isAdmin', function(err, result) {
+        if(result){
+            User.find({_id:req.body.id}).remove().exec();
+            res.json({msg:'success'});
+        }
+        else res.json({msg:'unauthorized!'});
+    })(req, res, next);
 });
 
 module.exports = router;

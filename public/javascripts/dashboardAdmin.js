@@ -40,13 +40,32 @@
                         }
                         if(name && email){
                             $http.post('api/adduser',$scope.user).then(function(res){
+                                $uibModalInstance.close('submit');
+                                $templateCache.remove('/view/userlist');
+                                $route.reload();
                             });
-                            console.log($scope.user);
+                        }
+                    };
+                }],
+            });
+        };
+        $scope.removeTea = function(userid){
+            $uibModal.open({
+                animation:true,
+                templateUrl: 'pages/confirmmodal.html',
+                controller:['$scope','$uibModalInstance','$http','$route','$templateCache',function($scope,$uibModalInstance,$http,$route,$templateCache){
+                    $scope.title="Confirm";
+                    $scope.body = "Are you sure to delete this user?";
+                    $scope.cancel = function() {
+                        $uibModalInstance.close('cancel');
+                    }
+                    $scope.deleteUser = function(){
+                        $http.post('api/deluser',{id:userid}).then(function(res){
                             $uibModalInstance.close('submit');
                             $templateCache.remove('/view/userlist');
                             $route.reload();
-                        }
-                    };
+                        });
+                    }
                 }],
             });
         };
