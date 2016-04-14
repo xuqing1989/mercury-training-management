@@ -39,7 +39,7 @@
                             $scope.valid.email = false;
                         }
                         if(name && email){
-                            $http.post('api/adduser',$scope.user).then(function(res){
+                            $http.post('api/adduser',{userdata:$scope.user}).then(function(res){
                                 $uibModalInstance.close('submit');
                                 $templateCache.remove('/view/userlist');
                                 $route.reload();
@@ -60,7 +60,7 @@
                         $uibModalInstance.close('cancel');
                     }
                     $scope.deleteUser = function(){
-                        $http.post('api/deluser',{id:userid}).then(function(res){
+                        $http.post('api/deluser',{userdata:{id:userid}}).then(function(res){
                             $uibModalInstance.close('submit');
                             $templateCache.remove('/view/userlist');
                             $route.reload();
