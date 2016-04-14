@@ -17,15 +17,6 @@
                       <label ng-show="!!valid.email">Email</label>
                       <input type="email" class="form-control" name="email" placeholder="Enter ..." ng-model="user.email" ng-model-options="{ updateOn: 'blur' }">
                     </div>
-
-                    <div class="form-group">
-                      <label>
-                        <input type="radio" name="r1" class="minimal" checked disabled>&nbsp;Teacher&nbsp;
-                      </label>
-                      <label>
-                        <input type="radio" name="r1" class="minimal" disabled>&nbsp;Student
-                      </label>
-                    </div>
                     <div class="box-footer">
                         <button class="btn btn-primary" type="submit" ng-click="submitUserModal()">Submit</button>
                     </div>

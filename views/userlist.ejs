@@ -15,13 +15,13 @@
     <div class="box">
       <div class="box-header">
           <h3 class="box-title">Teacher List</h3>
-          <button class="btn btn-sm btn-default" ng-click="addTeaModal()"><i class="fa fa-plus"></i></button>
+          <button class="btn btn-sm btn-default" ng-click="newModal('teacher')"><i class="fa fa-plus"></i></button>
       </div><!-- /.box-header -->
       <div class="box-body table-responsive no-padding">
         <table class="table table-hover">
           <tr>
-            <th>Name</th>
-            <th>Email</th>
+            <th style="width:20%">Name</th>
+            <th style="width:35%">Email</th>
             <th>Operations</th>
           </tr>
           <% for(var key in teaList) { %>
@@ -29,8 +29,8 @@
             <td><%= teaList[key].name %></td>
             <td><%= teaList[key].email %></td>
             <td>
-                <button class="btn btn-sm btn-default"><i class="fa fa-edit"></i></button>
-                <button class="btn btn-sm btn-default" ng-click="removeTea('<%= teaList[key]._id%>')"><i class="fa fa-remove"></i></button>
+                <button class="btn btn-sm btn-default" ng-click="resetUserPwd('<%= teaList[key]._id%>')">Reset Password</button>
+                <button class="btn btn-sm btn-danger" ng-click="removeUser('<%= teaList[key]._id%>')"><i class="fa fa-remove"></i></button>
             </td>
           </tr>
           <% } %>
@@ -44,13 +44,13 @@
     <div class="box">
       <div class="box-header">
         <h3 class="box-title">Student List</h3>
-        <button class="btn btn-sm btn-default"><i class="fa fa-plus"></i></button>
+        <button class="btn btn-sm btn-default" ng-click="newModal('student')"><i class="fa fa-plus"></i></button>
       </div><!-- /.box-header -->
       <div class="box-body table-responsive no-padding">
         <table class="table table-hover">
           <tr>
-            <th>Name</th>
-            <th>Email</th>
+            <th style="width:20%">Name</th>
+            <th style="width:35%">Email</th>
             <th>Operations</th>
           </tr>
           <% for(var key in stuList) { %>
@@ -58,8 +58,8 @@
             <td><%= stuList[key].name %></td>
             <td><%= stuList[key].email %></td>
             <td>
-                <button class="btn btn-sm btn-default"><i class="fa fa-edit"></i></button>
-                <button class="btn btn-sm btn-default"><i class="fa fa-remove"></i></button>
+                <button class="btn btn-sm btn-default" ng-click="resetUserPwd('<%= stuList[key]._id%>')">Reset Password</button>
+                <button class="btn btn-sm btn-danger" ng-click="removeUser('<%= stuList[key]._id%>')"><i class="fa fa-remove"></i></button>
             </td>
           </tr>
           <% } %>
