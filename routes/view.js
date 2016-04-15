@@ -8,13 +8,13 @@ router.get('/userlist',function(req,res,next){
     passport.authenticate('isAdmin', function(err, result) {
         if(result){
             var teaList, stuList;
-            User.find({role:'teacher'}).exec(function(err,queryData){
+            var teaP = User.find({role:'teacher'}).exec(function(err,queryData){
                 teaList = queryData;
             });
-            User.find({role:'student'}).exec(function(err,queryData){
+            var stuP = User.find({role:'student'}).exec(function(err,queryData){
                 stuList = queryData;
-            })
-            .then(function(){
+            });
+            Promise.all([teaP,stuP]).then(function(){
                 res.render('userlist',{
                     teaList:teaList,
                     stuList:stuList,

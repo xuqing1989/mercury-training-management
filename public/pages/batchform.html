@@ -18,15 +18,25 @@
                 </select>
             </div>
             <div class="form-group" name="batchFrom">
-                <label>Begin Date:</label>
+                <label>Begin Date</label>
                 <div class="input-group date">
                     <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                     </div>
                     <input type="text" id="datepicker" name="beginDate" class="form-control pull-right"
-                    ng-click="openDatepicker()" ng-model="batch.beginDate" uib-datepicker-popup show-button-bar="false" is-open="datepickerOpen" readonly>
+                    ng-click="openDatepicker()" ng-model="batch.beginDate" uib-datepicker-popup show-button-bar="false" is-open="datepickerOpen">
                 </div>
                 <!-- /.input group -->
+            </div>
+            <div class="form-group">
+                <label>Teacher</label>
+                <select class="form-control" ng-model="batch.teacher" ng-options="tea._id as (tea.name+' <'+tea.email+'>') for tea in teachers">
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Students</label>
+                <select class="form-control" multiple ng-model="batch.students" ng-options="stu._id as (stu.name+' <'+stu.email+'>') for stu in students">
+                </select>
             </div>
             <div class="box-footer">
                 <button class="btn btn-primary" type="submit" ng-click="submitBatch()">Submit</button>

@@ -131,16 +131,33 @@
             $uibModal.open({
                 animation:true,
                 templateUrl:'pages/batchform.html',
-                controller:['$scope',function($scope){
+                controller:['$scope','$http','$uibModalInstance','$route','$templateCache', function($scope, $http, $uibModalInstance,$route,$templateCache){
                     $scope.action='new';
                     $scope.batch = {};
                     $scope.batch.type = 'Java';
-                    $scope.$watch('batch.type',function(n,o){
-                        $scope.batch.name = n;
+                    $scope.batch.beginDate = new Date();
+                    $scope.$watchGroup(['batch.type','batch.beginDate'],function(n,o){
+                        $scope.batch.name = n[0]+'.'+moment(n[1]).format('MMM')+'.'+moment(n[1]).format('YYYY');
                     });
                     $scope.openDatepicker = function(){
                         $scope.datepickerOpen = true;
-                    }
+                    };
+                    $http.get('api/userlist').then(function(res){
+                        $scope.teachers = res.data.teachers;
+                        $scope.batch.teacher = $scope.teachers[0]._id;
+                        $scope.students = res.data.students;
+                        $scope.batch.students = _.reduce(res.data.students,function(result,value,key){
+                            result.push(value._id);
+                            return result;
+                        },[]);
+                    });
+                    $scope.submitBatch = function(){
+                        $http.post('api/addbatch',{batchdata:$scope.batch}).then(function(res){
+                            $uibModalInstance.close('submit');
+                            $templateCache.remove('/view/batchlist');
+                            $route.reload();
+                        });
+                    };
                 }],
             });
         }

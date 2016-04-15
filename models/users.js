@@ -5,6 +5,6 @@ module.exports = mongoose.model('User',{
     email: String,
     name: String,
     role: String,
-    batch_id: String,
+    batch: {type:String, ref:'Batch', default:null},
     status: String,
 });
