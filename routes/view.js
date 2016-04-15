@@ -1,5 +1,6 @@
 var router = require('express').Router();
 var User = require('../models/users');
+var Batch = require('../models/batch');
 var passport = require('passport');
 
 
@@ -19,6 +20,19 @@ router.get('/userlist',function(req,res,next){
                     stuList:stuList,
                 });
             });
+        }
+        else res.json({msg:'unauthorized!'});
+    })(req, res, next);
+});
+
+router.get('/batchlist',function(req,res,next){
+    passport.authenticate('isAdmin', function(err, result) {
+        if(result){
+            var batchList;
+            Batch.find().exec(function(err,queryData) {
+                var batchList = queryData;
+            });
+            res.render('batchlist');
         }
         else res.json({msg:'unauthorized!'});
     })(req, res, next);

@@ -6,12 +6,17 @@
         .when('/userlist',{
             templateUrl: '/view/userlist',
             controller: 'userlistCtrl',
+        })
+        .when('/batchlist',{
+            templateUrl: 'view/batchlist',
+            controller: 'batchlistCtrl',
         });
     })
     .controller('mainCtrl',['$http','$scope','$sce','$location',function($http,$scope,$sce,$location){
         $location.url('userlist');
     }])
     .controller('userlistCtrl',['$http','$scope','$uibModal',function($http,$scope,$uibModal){
+        $scope.$parent.activedMenu = 'userlist';
         $scope.newModal = function(type){
             $uibModal.open({
                 animation:true,
@@ -119,5 +124,25 @@
                 }],
             });
         };
+    }])
+    .controller('batchlistCtrl',['$scope','$uibModal',function($scope,$uibModal){
+        $scope.$parent.activedMenu = 'batchlist';
+        $scope.newModal = function(){
+            $uibModal.open({
+                animation:true,
+                templateUrl:'pages/batchform.html',
+                controller:['$scope',function($scope){
+                    $scope.action='new';
+                    $scope.batch = {};
+                    $scope.batch.type = 'Java';
+                    $scope.$watch('batch.type',function(n,o){
+                        $scope.batch.name = n;
+                    });
+                    $scope.openDatepicker = function(){
+                        $scope.datepickerOpen = true;
+                    }
+                }],
+            });
+        }
     }]);
 })(window.angular);

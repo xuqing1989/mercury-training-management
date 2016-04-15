@@ -1,10 +1,10 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/MMS');
 
 module.exports = mongoose.model('User',{
-        password: String,
-        email: String,
-        name: String,
-        role: String,
-        status: String,
+    password: String,
+    email: String,
+    name: String,
+    role: String,
+    batch_id: String,
+    status: String,
 });

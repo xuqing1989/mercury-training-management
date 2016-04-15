@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var app = express();
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/MMS');
 var bodyParser = require( 'body-parser' );
 app.use( bodyParser.urlencoded({ extended: true }) );
 var passport = require('passport');

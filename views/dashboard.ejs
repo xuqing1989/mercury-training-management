@@ -27,10 +27,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
           apply the skin class to the body tag so the changes take effect.
     -->
     <link rel="stylesheet" href="dist/css/skins/skin-blue.min.css">
+    <script src="libs/moment.min.js"></script>
     <script src="libs/angular/angular.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-route.js"></script>
-    <script src="libs/angular-bootstrap/ui-bootstrap.js"></script>
-    <script src="libs/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="libs/angular-bootstrap/ui-bootstrap-tpls-1.3.2.min.js"></script>
+    <script src="libs/angular/angular-route.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -257,8 +257,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <li class="header">NAVIGATION</li>
                     <!-- Optionally, you can add icons to the links -->
                     <% if(user.role=='Admin') { %>
-                    <li class="active"><a href="#/userlist"><i class="fa fa-users"></i> <span>Users</span></a></li>
-                    <li><a href="javascript:void(0)"><i class="fa fa-calendar"></i> <span>Batch</span></a></li>
+                    <li class="{{activedMenu=='userlist'?'active':''}}"><a href="#/userlist"><i class="fa fa-users"></i> <span>Users</span></a></li>
+                    <li class="{{activedMenu=='batchlist'?'active':''}}"><a href="#/batchlist"><i class="fa fa-calendar"></i> <span>Batch</span></a></li>
                     <% } %>
                     <!--
                     <li class="treeview">

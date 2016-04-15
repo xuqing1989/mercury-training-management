@@ -1,6 +1,6 @@
 (function(angular){
     'use strict';
-    angular.module('dashboard',['ngRoute','ui.bootstrap'])
+    angular.module('dashboard',['ui.bootstrap','ngRoute'])
     .filter('capitalize', function() {
         return function(input) {
             return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
