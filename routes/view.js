@@ -32,7 +32,7 @@ router.get('/batchlist',function(req,res,next){
             var promiseArr=[];
             Batch.find().populate('teacher').exec(function(err,queryData) {
                 //clone
-                batchList = queryData;
+                batchList = JSON.parse(JSON.stringify(queryData));
                 for(var key in batchList){
                     (function(key){
                         promiseArr[key] = User.find({batch:batchList[key]._id}).exec(function(err,stuData) {

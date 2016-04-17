@@ -185,5 +185,42 @@
                 }],
             });
         }
+        $scope.editBatch = function(batchObj){
+            batchObj = JSON.parse(batchObj);
+            batchObj.beginDate = new Date(batchObj.beginDate);
+            $uibModal.open({
+                animation:true,
+                templateUrl:'pages/batchform.html',
+                controller:['$scope','$http','$uibModalInstance','$route','$templateCache', function($scope, $http, $uibModalInstance,$route,$templateCache){
+                    $scope.action='edit';
+                    $scope.$watchGroup(['batch.type','batch.beginDate'],function(n,o){
+                        $scope.batch.name = n[0]+'.'+moment(n[1]).format('MMM')+'.'+moment(n[1]).format('YYYY');
+                    });
+                    $scope.openDatepicker = function(){
+                        $scope.datepickerOpen = true;
+                    };
+                    $http.get('api/userlist?batch='+batchObj._id).then(function(res){
+                        $scope.teachers = res.data.teachers;
+                        $scope.students = res.data.students;
+                    });
+                    $scope.batch = batchObj;
+                    $scope.batch.students = _.reduce(batchObj.students,function(result,value,key){
+                        result.push(value._id);
+                        return result;
+                    },[]);
+                    $scope.batch.teacher = batchObj.teacher._id;
+                    $scope.submitBatch = function(){
+                        if($scope.batch.teacher) {
+                            $http.post('api/editbatch',{batchdata:$scope.batch}).then(function(res){
+                                $uibModalInstance.close('submit');
+                                $templateCache.remove('view/batchlist');
+                                $templateCache.remove('view/userlist');
+                                $route.reload();
+                            });
+                        }
+                    };
+                }],
+            });
+        }
     }]);
 })(window.angular);

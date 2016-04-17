@@ -72,7 +72,7 @@ router.get('/userlist',function(req,res,next){
     var teaP = User.find({role:'teacher'}).exec(function(err,queryData){
         teaData = queryData;
     });
-    var stuP = User.find({role:'student',batch:null}).exec(function(err,queryData){
+    var stuP = User.find({$or:[{role:'student',batch:null},{role:'student',batch:req.query.batch}]}).exec(function(err,queryData){
         stuData = queryData;
     });
     Promise.all([teaP,stuP]).then(function(){
@@ -95,6 +95,32 @@ router.post('/addbatch',function(req,res,next){
                 });
                 Promise.all(updateArray).then(function(){
                     res.json({msg:'success'});
+                });
+            });
+        }
+        else res.json({msg:'unauthorized!'});
+    })(req, res, next);
+});
+
+router.post('/editbatch',function(req,res,next){
+    passport.authenticate('isAdmin', function(err, result) {
+        if(result){
+            var batchData = req.body.batchdata;
+            var batchId = batchData._id;
+            var stuIds = batchData.students;
+            delete(batchData.students);
+            User.update({batch:batchId},{batch:null},{multi:true}).exec().then(function(){
+                delete(batchData._id);
+                console.log(batchData);
+                Batch.find({_id:batchId}).update(batchData).exec(function(){
+                    var updateArray = [];
+                    stuIds.forEach(function(stuid){
+                        var updateOpt = User.find({_id:stuid}).update({batch:batchId}).exec();
+                        updateArray.push(updateOpt);
+                    });
+                    Promise.all(updateArray).then(function(){
+                        res.json({msg:'success'});
+                    });
                 });
             });
         }

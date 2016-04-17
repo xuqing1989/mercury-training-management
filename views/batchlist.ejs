@@ -31,11 +31,11 @@
           <tr>
               <td><%= batchList[key].name %></td>
               <td><%= batchList[key].type %></td>
-              <td><%= batchList[key].beginDate.toDateString() %></td>
+              <td><%= batchList[key].beginDate.substr(0,10) %></td>
               <td><%= batchList[key].teacher.name %></td>
               <td><%= batchList[key].students?batchList[key].students.length:0 %></td>
               <td>
-                  <button class="btn btn-sm btn-default" ng-click=""><i class="fa fa-edit"></i></button>
+                  <button class="btn btn-sm btn-default" ng-click="editBatch('<%= JSON.stringify(batchList[key]) %>')"><i class="fa fa-edit"></i></button>
                   <% if(!batchList[key].students.length) { %>
                   <button class="btn btn-sm btn-danger" ng-click="removeBatch('<%= batchList[key]._id %>')"><i class="fa fa-remove"></i></button>
                   <% } %>
