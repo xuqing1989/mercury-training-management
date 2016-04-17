@@ -28,15 +28,17 @@ router.get('/userlist',function(req,res,next){
 router.get('/batchlist',function(req,res,next){
     passport.authenticate('isAdmin', function(err, result) {
         if(result){
-            var batchList;
+            var batchList=[];
             var promiseArr=[];
             Batch.find().populate('teacher').exec(function(err,queryData) {
+                //clone
                 batchList = queryData;
                 for(var key in batchList){
-                    var userPro = User.find({batch:batchList[key]._id}).exec(function(err,queryData) {
-                        batchList[key].students = queryData;
-                    });
-                    promiseArr.push(userPro);
+                    (function(key){
+                        promiseArr[key] = User.find({batch:batchList[key]._id}).exec(function(err,stuData) {
+                            batchList[key].students = stuData || [];
+                        });
+                    })(key);
                 };
             }).then(function(){
                 Promise.all(promiseArr).then(function(){

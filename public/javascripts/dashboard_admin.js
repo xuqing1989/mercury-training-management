@@ -4,7 +4,7 @@
     .config(function($routeProvider,$locationProvider){
         $routeProvider
         .when('/userlist',{
-            templateUrl: '/view/userlist',
+            templateUrl: 'view/userlist',
             controller: 'userlistCtrl',
         })
         .when('/batchlist',{
@@ -46,7 +46,7 @@
                         if(name && email){
                             $http.post('api/adduser',{userdata:$scope.user}).then(function(res){
                                 $uibModalInstance.close('submit');
-                                $templateCache.remove('/view/userlist');
+                                $templateCache.remove('view/userlist');
                                 $route.reload();
                                 return res;
                             }).then(function(res){
@@ -83,7 +83,7 @@
                     $scope.yesButton = function(){
                         $http.post('api/deluser',{userdata:{id:userid}}).then(function(res){
                             $uibModalInstance.close('submit');
-                            $templateCache.remove('/view/userlist');
+                            $templateCache.remove('view/userlist');
                             $route.reload();
                         });
                     }
@@ -155,12 +155,33 @@
                         if($scope.batch.teacher) {
                             $http.post('api/addbatch',{batchdata:$scope.batch}).then(function(res){
                                 $uibModalInstance.close('submit');
-                                $templateCache.remove('/view/batchlist');
-                                $templateCache.remove('/view/userlist');
+                                $templateCache.remove('view/batchlist');
+                                $templateCache.remove('view/userlist');
                                 $route.reload();
                             });
                         }
                     };
+                }],
+            });
+        };
+        $scope.removeBatch = function(batchId){
+            $uibModal.open({
+                animation:true,
+                templateUrl: 'pages/confirmmodal.html',
+                controller:['$scope','$uibModalInstance','$http','$route','$templateCache',function($scope,$uibModalInstance,$http,$route,$templateCache){
+                    $scope.title="Confirm";
+                    $scope.body = "Are you sure to delete this batch?";
+                    $scope.yesButtonText = "Yes";
+                    $scope.cancel = function() {
+                        $uibModalInstance.close('cancel');
+                    }
+                    $scope.yesButton = function(){
+                        $http.post('api/delbatch',{batchdata:{id:batchId}}).then(function(res){
+                            $uibModalInstance.close('submit');
+                            $templateCache.remove('view/batchlist');
+                            $route.reload();
+                        });
+                    }
                 }],
             });
         }

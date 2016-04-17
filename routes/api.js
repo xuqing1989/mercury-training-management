@@ -102,4 +102,15 @@ router.post('/addbatch',function(req,res,next){
     })(req, res, next);
 });
 
+router.post('/delbatch',function(req,res,next){
+    passport.authenticate('isAdmin', function(err, result) {
+        if(result){
+            Batch.find({_id:req.body.batchdata.id}).remove().exec(function(){
+                res.json({msg:'success'});
+            });
+        }
+        else res.json({msg:'unauthorized!'});
+    })(req, res, next);
+});
+
 module.exports = router;

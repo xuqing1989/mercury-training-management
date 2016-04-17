@@ -36,8 +36,8 @@
               <td><%= batchList[key].students?batchList[key].students.length:0 %></td>
               <td>
                   <button class="btn btn-sm btn-default" ng-click=""><i class="fa fa-edit"></i></button>
-                  <% if(!batchList[key].students) { %>
-                  <button class="btn btn-sm btn-danger" ng-click=""><i class="fa fa-remove"></i></button>
+                  <% if(!batchList[key].students.length) { %>
+                  <button class="btn btn-sm btn-danger" ng-click="removeBatch('<%= batchList[key]._id %>')"><i class="fa fa-remove"></i></button>
                   <% } %>
               </td>
           </tr>

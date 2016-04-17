@@ -61,7 +61,9 @@
             <td><%= stuList[key].batch?stuList[key].batch.name:'' %></td>
             <td>
                 <button class="btn btn-sm btn-default" ng-click="resetUserPwd('<%= stuList[key]._id%>')">Reset Password</button>
+                <% if(!stuList[key].batch) { %>
                 <button class="btn btn-sm btn-danger" ng-click="removeUser('<%= stuList[key]._id%>')"><i class="fa fa-remove"></i></button>
+                <% } %>
             </td>
           </tr>
           <% } %>
