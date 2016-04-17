@@ -21,7 +21,7 @@
         <table class="table table-hover">
           <tr>
             <th style="width:20%">Name</th>
-            <th style="width:35%">Email</th>
+            <th style="width:25%">Email</th>
             <th>Operations</th>
           </tr>
           <% for(var key in teaList) { %>
@@ -50,13 +50,15 @@
         <table class="table table-hover">
           <tr>
             <th style="width:20%">Name</th>
-            <th style="width:35%">Email</th>
+            <th style="width:25%">Email</th>
+            <th style="width:20%">Batch</th>
             <th>Operations</th>
           </tr>
           <% for(var key in stuList) { %>
           <tr>
             <td><%= stuList[key].name %></td>
             <td><%= stuList[key].email %></td>
+            <td><%= stuList[key].batch?stuList[key].batch.name:'' %></td>
             <td>
                 <button class="btn btn-sm btn-default" ng-click="resetUserPwd('<%= stuList[key]._id%>')">Reset Password</button>
                 <button class="btn btn-sm btn-danger" ng-click="removeUser('<%= stuList[key]._id%>')"><i class="fa fa-remove"></i></button>

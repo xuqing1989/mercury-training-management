@@ -152,11 +152,14 @@
                         },[]);
                     });
                     $scope.submitBatch = function(){
-                        $http.post('api/addbatch',{batchdata:$scope.batch}).then(function(res){
-                            $uibModalInstance.close('submit');
-                            $templateCache.remove('/view/batchlist');
-                            $route.reload();
-                        });
+                        if($scope.batch.teacher) {
+                            $http.post('api/addbatch',{batchdata:$scope.batch}).then(function(res){
+                                $uibModalInstance.close('submit');
+                                $templateCache.remove('/view/batchlist');
+                                $templateCache.remove('/view/userlist');
+                                $route.reload();
+                            });
+                        }
                     };
                 }],
             });

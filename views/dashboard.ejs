@@ -257,7 +257,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <ul class="sidebar-menu">
                     <li class="header">NAVIGATION</li>
                     <!-- Optionally, you can add icons to the links -->
-                    <% if(user.role=='Admin') { %>
+                    <% if(user.role=='admin') { %>
                     <li class="{{activedMenu=='userlist'?'active':''}}"><a href="#/userlist"><i class="fa fa-users"></i> <span>Users</span></a></li>
                     <li class="{{activedMenu=='batchlist'?'active':''}}"><a href="#/batchlist"><i class="fa fa-calendar"></i> <span>Batch</span></a></li>
                     <% } %>
@@ -393,8 +393,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <!-- AdminLTE App -->
     <script src="dist/js/app.min.js"></script>
-    <script src="javascripts/dashboardCommon.js"></script>
-    <script src="javascripts/dashboard<%= user.role %>.js"></script>
+    <script src="javascripts/dashboard_common.js"></script>
+    <script src="javascripts/dashboard_<%= user.role %>.js"></script>
 
     <!-- Optionally, you can add Slimscroll and FastClick plugins.
          Both of these plugins are recommended to enhance the

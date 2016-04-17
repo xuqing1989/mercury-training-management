@@ -24,8 +24,24 @@
             <th>Type</th>
             <th>Begin date</th>
             <th>Teacher</th>
+            <th>Students</th>
             <th>Operations</th>
           </tr>
+          <% for(var key in batchList) { %>
+          <tr>
+              <td><%= batchList[key].name %></td>
+              <td><%= batchList[key].type %></td>
+              <td><%= batchList[key].beginDate.toDateString() %></td>
+              <td><%= batchList[key].teacher.name %></td>
+              <td><%= batchList[key].students?batchList[key].students.length:0 %></td>
+              <td>
+                  <button class="btn btn-sm btn-default" ng-click=""><i class="fa fa-edit"></i></button>
+                  <% if(!batchList[key].students) { %>
+                  <button class="btn btn-sm btn-danger" ng-click=""><i class="fa fa-remove"></i></button>
+                  <% } %>
+              </td>
+          </tr>
+          <% } %>
         </table>
       </div><!-- /.box-body -->
     </div><!-- /.box -->

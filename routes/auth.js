@@ -39,7 +39,7 @@ module.exports = function(req,res,next) {
         passwordField: 'authpassword',
         passReqToCallback: true,
     },function(req,usr,pwd,done){
-        if(req.user.role='Admin') {
+        if(req.user.role='admin') {
             return done(null, true);
         }
         return done(null,false);
