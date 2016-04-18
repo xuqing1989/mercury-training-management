@@ -7,7 +7,9 @@ var passport = require('passport');
 router.get('/', function(req, res, next) {
     passport.authorize('isLogin', function(err, user, info) {
         if (!user) return res.render('login');
-        else return res.render('dashboard',{user:user});
+        else {
+            return res.render('dashboard',{user:user});
+        }
     })(req, res, next);
 });
 

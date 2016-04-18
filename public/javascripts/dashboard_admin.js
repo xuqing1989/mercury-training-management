@@ -12,9 +12,7 @@
             controller: 'batchlistCtrl',
         });
     })
-    .controller('mainCtrl',['$http','$scope','$sce','$location',function($http,$scope,$sce,$location){
-        $location.url('userlist');
-    }])
+
     .controller('userlistCtrl',['$http','$scope','$uibModal',function($http,$scope,$uibModal){
         $scope.$parent.activedMenu = 'userlist';
         $scope.newModal = function(type){

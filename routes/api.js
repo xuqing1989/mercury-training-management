@@ -32,6 +32,12 @@ router.get('/currentuser',function(req,res,next){
     res.json(req.user);
 });
 
+router.post('/changepwd',function(req,res,next){
+    User.update({_id:req.user._id},{password:req.body.newpwd}).exec(function(){
+        res.json({msg:'success!'});
+    });
+});
+
 router.post('/adduser',function(req,res,next){
     passport.authenticate('isAdmin', function(err, result) {
         if(result){
