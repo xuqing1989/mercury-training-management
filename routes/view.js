@@ -52,4 +52,8 @@ router.get('/batchlist',function(req,res,next){
     })(req, res, next);
 });
 
+router.get('/batch/training',function(req,res,next){
+    res.render('training');
+});
+
 module.exports = router;

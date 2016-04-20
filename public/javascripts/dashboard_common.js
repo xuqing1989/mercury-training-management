@@ -1,6 +1,6 @@
 (function(angular){
     'use strict';
-    angular.module('dashboard',['ui.bootstrap','ngRoute'])
+    angular.module('dashboard',['ui.bootstrap','ngRoute','ui.calendar','textAngular'])
     .filter('capitalize', function() {
         return function(input) {
             return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
@@ -12,11 +12,21 @@
     })
     .controller('mainCtrl',['$scope','$location','sharedData',function($scope,$location,sharedData){
         var userData;
-        $scope.getServerData = function(data) {
+        $scope.getServerData = function(data,batch) {
             userData = JSON.parse(data);
             sharedData.userData = userData;
-            if(userData.role = 'admin') {
+            if(userData.role == 'admin') {
                 $location.url('userlist');
+            }
+            else {
+                batch = JSON.parse(batch);
+                sharedData.batchData = batch;
+                if(batch.length) {
+                    $location.url('batch/'+batch[0]._id+'/training');
+                }
+                else {
+                    $location.url('');
+                }
             }
         }
     }])

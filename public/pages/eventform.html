@@ -1,0 +1,56 @@
+<div class="box box-primary">
+    <!-- /.box-header -->
+    <div class="box-body">
+        <form role="form" name="eventModal">
+            <!-- text input -->
+            <div class="form-group {{valid.title?'':'has-error'}}">
+                <label ng-show='!valid.title' class="control-label" for="inputError"><i class="fa fa-times-circle-o">&nbsp;</i>Title required!</label>
+                <label ng-show="!!valid.title">Title</label>
+                <input type="text" class="form-control" name="title" ng-model="event.title">
+            </div>
+            <div class="form-group">
+                <label>Type</label>
+                <select class="form-control" ng-model="event.type">
+                    <option value="lecture">Lecture</option>
+                    <option value="assignment">Assignment</option>
+                </select>
+            </div>
+            <div class="form-group row" name="">
+                <div class="col-md-6">
+                    <label>Start</label>
+                    <div class="input-group date">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" id="datepicker" name="beginDate" type="date" class="form-control pull-right"
+                        ng-click="openStartDatepicker()" ng-model="event.startDate" uib-datepicker-popup
+                        show-button-bar="false" is-open="startPickerOpen">
+                    </div>
+                </div>
+                <!-- /.input group -->
+                <div class="col-md-6">
+                    <label>End</label>
+                    <div class="input-group date">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" id="datepicker" name="beginDate" type="date" class="form-control pull-right"
+                        ng-click="openEndDatepicker()" ng-model="event.endDate" uib-datepicker-popup
+                        show-button-bar="false" datepicker-options="endOptions" is-open="endPickerOpen">
+                    </div>
+                </div>
+                <!-- /.input group -->
+            </div>
+            <div class="form-group">
+                <label>Content</label>
+                <div text-angular ng-model="event.content"></div>
+            </div>
+            <div class="box-footer">
+                <button class="btn btn-primary" type="submit" ng-click="submitEvent()">Submit</button>
+                <button class="btn btn-default pull-right" type="submit" ng-click="clearInput()">Clear</button>
+            </div>
+        </form>
+    </div>
+    <!-- /.box-body -->
+</div>
+<!-- /.box -->

@@ -1,6 +1,7 @@
 var router = require('express').Router();
 var User = require('../models/users');
 var Batch = require('../models/batch');
+var Event = require('../models/event');
 var passport = require('passport');
 
 function genPwd(len)
@@ -143,6 +144,19 @@ router.post('/delbatch',function(req,res,next){
         }
         else res.json({msg:'unauthorized!'});
     })(req, res, next);
+});
+
+router.post('/addevent',function(req,res,next){
+    Event.collection.insert(req.body.eventData).then(function(opt){
+        res.json({msg:'success'});
+    });
+});
+
+router.get('/eventdata',function(req,res,next){
+    var batchId = req.query.batchId;
+    Event.find({batch:batchId}).exec(function(err,queryData){
+        res.json(queryData);
+    });
 });
 
 module.exports = router;

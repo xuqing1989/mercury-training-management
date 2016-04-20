@@ -12,7 +12,6 @@
             controller: 'batchlistCtrl',
         });
     })
-
     .controller('userlistCtrl',['$http','$scope','$uibModal',function($http,$scope,$uibModal){
         $scope.$parent.activedMenu = 'userlist';
         $scope.newModal = function(type){

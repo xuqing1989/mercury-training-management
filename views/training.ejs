@@ -1,0 +1,48 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+    Training Calendar
+    <small>Control panel</small>
+  </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a>
+        </li>
+        <li class="active">Calendar</li>
+    </ol>
+</section>
+<section class="content" ng-controller="calendarCtrl">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-body no-padding">
+                    <!-- THE CALENDAR -->
+                    <div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources"></div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /. box -->
+        </div>
+        <!-- /.col -->
+    </div>
+</section>
+<section class="content-header">
+    <h1>Events
+    <small>Add, edit and romove events.</small>
+  </h1>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="btn-group">
+                <button class="btn btn-default active" type="button">New</button>
+                <button class="btn btn-default" type="button">Edit</button>
+                <button class="btn btn-default" type="button">Delete</button>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top:20px">
+        <div class="col-md-12">
+            <event-form action="eventAction"></event-form>
+        </div>
+    </div>
+</section>
