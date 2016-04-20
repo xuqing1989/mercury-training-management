@@ -147,7 +147,23 @@ router.post('/delbatch',function(req,res,next){
 });
 
 router.post('/addevent',function(req,res,next){
+    delete(req.body.eventData._id);
     Event.collection.insert(req.body.eventData).then(function(opt){
+        res.json({msg:'success'});
+    });
+});
+
+router.post('/editevent',function(req,res,next){
+    var eventId = req.body.eventId;
+    delete(req.body.eventData._id);
+    Event.update({_id:eventId},req.body.eventData).exec(function(){
+        res.json({msg:'success'});
+    });
+});
+
+router.post('/deleteevent',function(req,res,next){
+    var eventId = req.body.eventId;
+    Event.find({_id:eventId}).remove().exec(function(){
         res.json({msg:'success'});
     });
 });
@@ -155,6 +171,13 @@ router.post('/addevent',function(req,res,next){
 router.get('/eventdata',function(req,res,next){
     var batchId = req.query.batchId;
     Event.find({batch:batchId}).exec(function(err,queryData){
+        res.json(queryData);
+    });
+});
+
+router.get('/eventcontent',function(req,res,next){
+    var eventId = req.query.eventId;
+    Event.findOne({_id:eventId}).exec(function(err,queryData){
         res.json(queryData);
     });
 });
