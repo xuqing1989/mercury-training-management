@@ -118,7 +118,6 @@ router.post('/editbatch',function(req,res,next){
             delete(batchData.students);
             User.update({batch:batchId},{batch:null},{multi:true}).exec().then(function(){
                 delete(batchData._id);
-                console.log(batchData);
                 Batch.find({_id:batchId}).update(batchData).exec(function(){
                     var updateArray = [];
                     stuIds.forEach(function(stuid){

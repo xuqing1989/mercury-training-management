@@ -45,18 +45,21 @@
                     color: '#00c0ef',
                     textColor: 'fff',
                     allDay:true,
+                    stick : true, 
                     events: [],
                 };
                 var assignmentEvents = {
                     color: '#f39c12',
                     textColor: 'fff',
                     allDay:true,
+                    stick : true, 
                     events: [],
                 };
                 var quizEvents = {
                     color: '#dd4b39',
                     textColor: 'fff',
                     allDay:true,
+                    stick : true, 
                     events: [],
                 };
                 $http.get('/api/eventdata?batchId='+$route.current.params.batchId).then(function(res){

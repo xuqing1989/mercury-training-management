@@ -79,7 +79,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <% } else if(user.role=='teacher'){ %>
     <div class="wrapper" ng-controller="mainCtrl" ng-init="getServerData('<%= JSON.stringify(user)%>','<%= JSON.stringify(batch)%>')">
 <% } else { %>
-    <div class="wrapper" ng-controller="mainCtrl">
+    <div class="wrapper" ng-controller="mainCtrl" ng-init="getServerData('<%= JSON.stringify(user)%>')">
 <% } %>
         <!-- Main Header -->
         <header class="main-header">

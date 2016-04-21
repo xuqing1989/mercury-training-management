@@ -28,11 +28,12 @@
                     $location.url('');
                 }
             }
-            else {
+            else if(userData.role == 'student'){
+                $location.url('batch/'+userData.batch+'/training');
             }
         }
     }])
-    .controller('profileCtrl',['$http','$scope','$window','$uibModal','sharedData',function($http,$scope,$window,$uibModal,sharedData){
+    .controller('profileCtrl',['$http','$scope','$window','$uibModal','sharedData','$location',function($http,$scope,$window,$uibModal,sharedData,$location){
         $scope.profileModal = function(){
             var userData = sharedData.userData;
             $uibModal.open({
@@ -81,6 +82,7 @@
         }
         $scope.logout = function(){
             $http.delete('api/login').then(function(res){
+                $location.url('');
                 $window.location.reload();
             });
         };
