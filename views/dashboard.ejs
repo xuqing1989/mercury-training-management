@@ -76,8 +76,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <body class="hold-transition skin-blue sidebar-mini" ng-app="dashboard">
 <% if(user.role=='admin') { %>
     <div class="wrapper" ng-controller="mainCtrl" ng-init="getServerData('<%= JSON.stringify(user)%>')">
-<% } else { %>
+<% } else if(user.role=='teacher'){ %>
     <div class="wrapper" ng-controller="mainCtrl" ng-init="getServerData('<%= JSON.stringify(user)%>','<%= JSON.stringify(batch)%>')">
+<% } else { %>
+    <div class="wrapper" ng-controller="mainCtrl">
 <% } %>
         <!-- Main Header -->
         <header class="main-header">
@@ -159,16 +161,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <% } %>
                     <% if(user.role == 'teacher') { %>
                     <% for(key in batch) { %>
-                    <li class="treeview <%= key==0?'active':''%>">
+                    <li class="treeview {{activedPMenu=='<%= batch[key]._id%>'?'active':''}}">
                     <a href="javascript:void(0)"><i class="fa fa-university"></i> <span><%= batch[key].name %></span> <i class="fa fa-angle-left pull-right"></i></a>
                         <ul class="treeview-menu">
-                            <li class="<%= key==0?'active':''%>"><a href="#/batch/<%= batch[key]._id%>/training"><i class="fa fa-book"></i>Training</a>
+                            <li class="{{activedCMenu=='<%= batch[key]._id%>'+'/training'?'active':''}}"><a href="#/batch/<%= batch[key]._id%>/training"><i class="fa fa-book"></i>Training</a>
                             </li>
-                            <li><a href="#/batch/<%= batch[key]._id%>/status"><i class="fa fa-pencil"></i>Student Status</a>
+                            <li class="{{activedCMenu=='status'?'active':''}}"><a href="#/batch/<%= batch[key]._id%>/status"><i class="fa fa-pencil"></i>Student Status</a>
                             </li>
                         </ul>
                     </li>
                     <% } %>
+                    <% } %>
+                    <% if(user.role=='student' && user.batch){ %>
+                    <li class="{{activedMenu=='training'?'active':''}}"><a href="#/batch/<%=user.batch%>/training"><i class="fa fa-university"></i><span>Training</span></a></li>
+                    <li class="{{activedMenu=='status'?'active':''}}"><a href=""><i class="fa fa-calendar"></i><span>Daily Status</span></a></li>
                     <% } %>
                 </ul>
                 <!-- /.sidebar-menu -->

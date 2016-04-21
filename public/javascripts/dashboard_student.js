@@ -1,4 +1,4 @@
-(function(angular) {
+(function(angular){
     'use strict';
     angular.module('dashboard')
         .config(['$routeProvider', '$locationProvider',function($routeProvider, $locationProvider) {
@@ -10,9 +10,9 @@
         }])
         .controller('trainingCtrl', ['$scope','$route',
             function($scope,$route) {
-                $scope.$parent.activedPMenu = $route.current.params.batchId;
-                $scope.$parent.activedCMenu = $route.current.params.batchId+'/training';
+                $scope.$parent.activedMenu = 'training';
                 $scope.ctrl = {
+                    studentMode:true,
                     displayMode:false,
                     action:'new',
                     eventSelected:false,
@@ -20,6 +20,7 @@
                 };
                 $scope.$on('eventClick',function(e,data){
                     $scope.ctrl = {
+                        studentMode:true,
                         displayMode:true,
                         action:'',
                         eventSelected:true,
@@ -138,28 +139,6 @@
                     eventId:'=',
                 },
                 link: function(scope, element, attrs, ctrl) {
-
-                    scope.event = {};
-                    scope.valid = {};
-                    scope.event.startDate = moment().toDate();
-                    scope.event.endDate = moment().toDate();
-                    scope.event.type = 'lecture';
-                    scope.openEndDatepicker = function(){
-                        scope.endPickerOpen = true;
-                    };
-                    scope.openStartDatepicker = function(){
-                        scope.startPickerOpen = true;
-                    };
-                    scope.$watch('event.startDate',function(n,o){
-                        if(scope.event.endDate < n){
-                            scope.event.endDate = n;
-                        }
-                        scope.endOptions.minDate = n;
-                    });
-                    scope.$watchGroup(['eventModal.title.$pristine','event.title'],function(n,o){
-                        if(n[0] || n[1])scope.valid.title = true;
-                        else scope.valid.title = false;
-                    });
                     scope.$watch('event.type',function(n,o){
                         if(n == 'lecture'){
                             scope.ctrl.formType = 'box-info';
@@ -180,73 +159,6 @@
                             });
                         }
                     });
-                    scope.clearInput = function(){
-                        scope.ctrl = {
-                            displayMode:false,
-                            action:'new',
-                            eventSelected:false,
-                            formType:'box-info',
-                        };
-                        scope.event._id = '';
-                        scope.event.title = '';
-                        scope.eventModal.title.$pristine = true;
-                        scope.event.startDate = moment().toDate();
-                        scope.event.endDate = moment().toDate();
-                        scope.event.type = 'lecture';
-                        scope.event.content = '';
-                    };
-                    scope.editEvent = function(){
-                        scope.ctrl = {
-                            displayMode:false,
-                            action:'edit',
-                            eventSelected:true,
-                        };
-                    }
-                    scope.deleteEvent = function(){
-                        if(scope.eventId){
-                            var eventId = scope.eventId;
-                            $uibModal.open({
-                                animation:true,
-                                templateUrl: 'pages/confirmmodal.html',
-                                controller:['$scope','$uibModalInstance','$http','$route','$templateCache',function($scope,$uibModalInstance,$http,$route,$templateCache){
-                                    $scope.title="Confirm";
-                                    $scope.body = "Are you sure to delete this event?";
-                                    $scope.yesButtonText = "Yes";
-                                    $scope.cancel = function() {
-                                        $uibModalInstance.close('cancel');
-                                    }
-                                    $scope.yesButton = function(){
-                                        $http.post('api/deleteevent',{eventId:eventId}).then(function(res){
-                                            $uibModalInstance.close('submit');
-                                            $templateCache.remove('view/batch/training');
-                                            $route.reload();
-                                        });
-                                    }
-                                }],
-                            });
-                        }
-                    }
-                    scope.submitEvent = function(){
-                        if(!scope.event.title){
-                            scope.valid.title = false;
-                            return;
-                        }
-                        scope.event.batch = $route.current.params.batchId;
-                        scope.event.startDate = moment(scope.event.startDate).hour(12);
-                        scope.event.endDate = moment(scope.event.endDate).hour(12);
-                        if(scope.ctrl.action == 'new') {
-                            $http.post('/api/addevent',{eventData:scope.event}).then(function(res){
-                                $templateCache.remove('view/batch/training');
-                                $route.reload();
-                            });
-                        }
-                        else if(scope.ctrl.action == 'edit'){
-                            $http.post('/api/editevent',{eventData:scope.event,eventId:scope.eventId}).then(function(res){
-                                $templateCache.remove('view/batch/training');
-                                $route.reload();
-                            });
-                        }
-                    };
                 },
             };
         }]);

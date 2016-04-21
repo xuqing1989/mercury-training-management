@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-12">
-        <div class="btn-group">
+        <div class="btn-group" ng-show="!ctrl.studentMode">
             <button class="btn btn-default {{ctrl.action=='new'?'active':''}}" ng-click="clearInput()"
             type="button">New</button>
             <button class="btn btn-default {{ctrl.action=='edit'?'active':''}}" ng-click="editEvent()"
@@ -11,10 +11,10 @@
     </div>
 </div>
 <div class="row" style="margin-top:20px">
-    <div class="col-md-12">
-        <div class="box {{ctrl.formType}}">
+    <div class="col-md-12" ng-show="!ctrl.studentMode">
+        <div class="box {{ctrl.formType}}" ng-show="!ctrl.displayMode">
             <!-- /.box-header -->
-            <div class="box-body" ng-show="!ctrl.displayMode">
+            <div class="box-body">
                 <form role="form" name="eventModal">
                     <!-- text input -->
                     <div class="form-group {{valid.title?'':'has-error'}}">
@@ -67,8 +67,12 @@
                     </div>
                 </form>
             </div>
+        </div>
             <!-- /.box-body -->
-            <div class="box-body" ng-show="ctrl.displayMode">
+    </div>
+    <div class="col-md-12"> 
+        <div class="box {{ctrl.formType}}" ng-show="ctrl.displayMode">
+            <div class="box-body">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="box-header with-border">
@@ -93,7 +97,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Content</label>
-                                <blockquote ng-bind-html="event.content"></blockquote>
+                                <blockquote ta-bind ng-model="event.content"></blockquote>
                             </div>
                         </div>
                         <!-- /.box-body -->

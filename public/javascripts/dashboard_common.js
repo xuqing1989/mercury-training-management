@@ -18,7 +18,7 @@
             if(userData.role == 'admin') {
                 $location.url('userlist');
             }
-            else {
+            else if(userData.role == 'teacher') {
                 batch = JSON.parse(batch);
                 sharedData.batchData = batch;
                 if(batch.length) {
@@ -27,6 +27,8 @@
                 else {
                     $location.url('');
                 }
+            }
+            else {
             }
         }
     }])
