@@ -32,7 +32,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     -->
     <link rel="stylesheet" href="dist/css/skins/skin-blue.min.css">
     <script src="libs/moment.min.js"></script>
-    <script src="libs/lodash.core.min.js"></script>
+    <script src="libs/lodash.js"></script>
     <script src="libs/angular/angular.js"></script>
     <script src="libs/angular-bootstrap/ui-bootstrap-tpls-1.3.2.min.js"></script>
     <script src="libs/angular/angular-route.js"></script>
@@ -105,14 +105,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <!-- Menu Toggle Button -->
                             <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
                                 <!-- The user image in the navbar-->
-                                <img src="dist/img/avatar5.png" class="user-image" alt="User Image">
+                                <img src="dist/img/avatar-generic.jpg" class="user-image" alt="User Image">
                                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
                                 <span class="hidden-xs"><%= user.name %></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- The user image in the menu -->
                                 <li class="user-header">
-                                    <img src="dist/img/avatar5.png" class="img-circle" alt="User Image">
+                                    <img src="dist/img/avatar-generic.jpg" class="img-circle" alt="User Image">
                                     <p>
                                         <%= user.name %> 
                                         <small>{{'<%= user.role %>'|capitalize}}</small>
@@ -142,7 +142,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel">
                     <div class="pull-left image">
-                        <img src="dist/img/avatar5.png" class="img-circle" alt="User Image">
+                        <img src="dist/img/avatar-generic.jpg" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
                         <p><%= user.name %></p>
@@ -166,15 +166,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <ul class="treeview-menu">
                             <li class="{{activedCMenu=='<%= batch[key]._id%>'+'/training'?'active':''}}"><a href="#/batch/<%= batch[key]._id%>/training"><i class="fa fa-book"></i>Training</a>
                             </li>
-                            <li class="{{activedCMenu=='status'?'active':''}}"><a href="#/batch/<%= batch[key]._id%>/status"><i class="fa fa-pencil"></i>Student Status</a>
+                            <li class="{{activedCMenu=='<%= batch[key]._id%>'+'/allstatus'?'active':''}}"><a href="#/batch/<%= batch[key]._id%>/allstatus"><i class="fa fa-pencil"></i>Student Status</a>
                             </li>
                         </ul>
                     </li>
                     <% } %>
                     <% } %>
                     <% if(user.role=='student' && user.batch){ %>
+                    <li class="{{activedMenu=='status'?'active':''}}"><a href="#/batch/<%=user.batch%>/status"><i class="fa fa-calendar"></i><span>Daily Status</span></a></li>
                     <li class="{{activedMenu=='training'?'active':''}}"><a href="#/batch/<%=user.batch%>/training"><i class="fa fa-university"></i><span>Training</span></a></li>
-                    <li class="{{activedMenu=='status'?'active':''}}"><a href=""><i class="fa fa-calendar"></i><span>Daily Status</span></a></li>
                     <% } %>
                 </ul>
                 <!-- /.sidebar-menu -->

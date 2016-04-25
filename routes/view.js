@@ -3,7 +3,6 @@ var User = require('../models/users');
 var Batch = require('../models/batch');
 var passport = require('passport');
 
-
 router.get('/userlist',function(req,res,next){
     passport.authenticate('isAdmin', function(err, result) {
         if(result){
@@ -54,6 +53,16 @@ router.get('/batchlist',function(req,res,next){
 
 router.get('/batch/training',function(req,res,next){
     res.render('training');
+});
+
+router.get('/batch/status',function(req,res,next){
+    res.render('status',{user:req.user});
+});
+
+router.get('/batch/allstatus',function(req,res,next){
+    User.find({role:'student',batch:req.query.batchId}).exec(function(err,queryData){
+        res.render('allstatus',{student:queryData});
+    });
 });
 
 module.exports = router;

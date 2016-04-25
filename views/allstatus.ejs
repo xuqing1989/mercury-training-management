@@ -1,0 +1,88 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+    Status Calendar
+    <small>Daily report</small>
+  </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Daily Status</a>
+        </li>
+        <li class="active">Calendar</li>
+    </ol>
+</section>
+<section class="content" ng-controller="allstatusCalCtrl">
+    <div class="row">
+        <div class="col-md-12">
+            <div style="margin-bottom:10px">
+            <% for(var key in student) { %>
+            <button class="btn {{stuList[<%=key%>]?'btn-success':'active'}}" ng-click="toggleStu(<%=key%>,'<%=student[key]._id%>')" ng-init="stuList[<%=key%>]='<%= student[key]._id %>'">
+                <%= student[key].name %>
+            </button>
+            <% } %>
+        </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-body no-padding">
+                    <!-- THE CALENDAR -->
+                    <div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources"></div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /. box -->
+        </div>
+        <!-- /.col -->
+    </div>
+</section>
+<section class="content-header">
+    <h1>Status Report
+    <small>Check students' daily status.</small>
+  </h1>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info" ng-show="!!statusObj.checkInTime">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label>Name</label>
+                                        <span class="text-muted">{{statusObj.student.name}}</span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Email</label>
+                                        <span class="text-muted">{{statusObj.student.email}}</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label>Check-in</label>
+                                        <span class="text-muted">{{statusObj.checkInTime|localDate:'h:mm:ssA'}}</span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Check-out</label>
+                                        <span class="text-muted">{{statusObj.checkOutTime|localDate:'h:mm:ssA'}}</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label ng-show="statusObj.reportTime">Submitted</label>
+                                    <span class="text-muted">{{statusObj.reportTime|localDate:'YYYY-MM-DD h:mm:ssA'}}</span>
+                                    <blockquote ta-bind ng-model="statusObj.report" ng-show="!!statusObj.reportTime"></blockquote>
+                                    <span class="text-muted" ng-show="!statusObj.reportTime">Report hasn't been submitted.</span>
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+</section>

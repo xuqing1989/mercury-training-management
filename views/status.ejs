@@ -1,0 +1,109 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+    Status Calendar
+    <small>Daily report</small>
+  </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Daily Status</a>
+        </li>
+        <li class="active">Calendar</li>
+    </ol>
+</section>
+<section class="content" ng-controller="statusCalCtrl">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="callout callout-info">
+                <h4 style="margin:0">Hello <%=user.name%>! Now is {{''|now}}.
+                    <span ng-show="!finCheckin">You can <button class="btn btn-success" ng-click="checkIn()">Check-In</button></span>
+                    <span ng-show="finCheckin && !finCheckout">You can <button class="btn btn-warning" ng-click="checkOut()">Check-Out</button></span>
+                    <span ng-show="finCheckout">You already checked out at {{recentReport.checkOutTime|now}}. </span>
+                </h4>
+            </div>
+            <div class="callout callout-warning" ng-show="!finCheckin">
+                <h4 style="margin:0">You can not submit status report before check-in.</h4>
+            </div>
+            <!-- /. box -->
+        </div>
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-body no-padding">
+                    <!-- THE CALENDAR -->
+                    <div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources"></div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /. box -->
+        </div>
+        <!-- /.col -->
+    </div>
+</section>
+<section class="content-header">
+    <h1>Status Report ({{statusObj.checkInTime|localDate:'YYYY-MM-DD'}})
+    <small>Edit and submit status report</small>
+  </h1>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12" ng-show="!statusObj.report">
+            <div class="box box-info">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <form role="form">
+                        <div class="form-group">
+                            <div text-angular ng-model="reportContent"></div>
+                        </div>
+                        <div class="box-footer">
+                            <button class="btn btn-primary" type="submit" ng-click="submitReport()">Submit</button>
+                            <button class="btn btn-default pull-right" type="submit" ng-click="clearInput()">Clear</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="overlay" ng-show="!statusObj.checkInTime">
+                    <i class="fa fa-ban"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="box box-info" ng-show="!!statusObj.report">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label>Name</label>
+                                        <span class="text-muted"><%=user.name%></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Email</label>
+                                        <span class="text-muted"><%=user.email%></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label>Check-in</label>
+                                        <span class="text-muted">{{statusObj.checkInTime|localDate:'h:mm:ssA'}}</span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Check-out</label>
+                                        <span class="text-muted">{{statusObj.checkOutTime|localDate:'h:mm:ssA'}}</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label ng-show="statusObj.reportTime">Submitted</label>
+                                    <span class="text-muted">{{statusObj.reportTime|localDate:'YYYY-MM-DD h:mm:ssA'}}</span>
+                                    <blockquote ta-bind ng-model="statusObj.report"></blockquote>
+                                    <span class="text-muted" ng-show="!statusObj.reportTime">Report hasn't been submitted.</span>
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+</section>

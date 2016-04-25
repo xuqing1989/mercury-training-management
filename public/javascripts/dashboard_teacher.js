@@ -6,6 +6,12 @@
                 .when('/batch/:batchId/training', {
                     templateUrl: 'view/batch/training',
                     controller: 'trainingCtrl',
+                })
+                .when('/batch/:batchId/allstatus', {
+                    templateUrl: function(params){
+                        return 'view/batch/allstatus?batchId='+params.batchId;
+                    },
+                    controller: 'allstatusCtrl',
                 });
         }])
         .controller('trainingCtrl', ['$scope','$route',
@@ -39,7 +45,7 @@
                 });
             }
         ])
-        .controller('calendarCtrl', ['$scope', '$compile', 'uiCalendarConfig', '$http', '$route',
+        .controller('trainingCalCtrl', ['$scope', '$compile', 'uiCalendarConfig', '$http', '$route',
             function($scope, $compile, uiCalendarConfig, $http, $route) {
                 var lectureEvents = {
                     color: '#00c0ef',
@@ -252,5 +258,104 @@
                     };
                 },
             };
-        }]);
+        }])
+        .controller('allstatusCtrl', ['$scope','$http','$templateCache', '$route', '$uibModal',
+            function($scope,$http,$templateCache, $route, $uibModal) {
+                $scope.$parent.activedPMenu = $route.current.params.batchId;
+                $scope.$parent.activedCMenu = $route.current.params.batchId+'/allstatus';
+                $scope.statusObj = {};
+                $scope.stuList = [];
+                $scope.$on('eventClick',function(e,data){
+                    $http.get('/api/statusdata?statusId='+data.id).then(function(res){
+                        $scope.statusObj = res.data;
+                    });
+                });
+                $scope.$watch('stuList',function(n,o){
+                    $http.post('/api/allstatus',{stuList:$scope.stuList}).then(function(res){
+                        $scope.$broadcast('reportData',res.data);
+                    });
+                });
+                $scope.toggleStu = function(key,stuId){
+                    if($scope.stuList[key]){
+                        $scope.stuList[key] = '';
+                    }
+                    else {
+                        $scope.stuList[key] = stuId;
+                    }
+                    $http.post('/api/allstatus',{stuList:$scope.stuList}).then(function(res){
+                        $scope.$broadcast('reportData',res.data);
+                    });
+                }
+            }
+        ])
+        .controller('allstatusCalCtrl', ['$scope', '$compile', 'uiCalendarConfig', '$http', '$route','sharedData', 
+            function($scope, $compile, uiCalendarConfig, $http, $route, sharedData) {
+                /* alert on eventClick */
+                $scope.eventClick = function(date, jsEvent, view) {
+                    $scope.$emit('eventClick', {
+                        id: date.id,
+                    });
+                };
+
+                /* Change View */
+                $scope.changeView = function(view, calendar) {
+                    uiCalendarConfig.calendars[calendar].fullCalendar('changeView', view);
+                };
+                /* Change View */
+                $scope.renderCalender = function(calendar) {
+                    if (uiCalendarConfig.calendars[calendar]) {
+                        uiCalendarConfig.calendars[calendar].fullCalendar('render');
+                    }
+                };
+                /* Render Tooltip */
+                $scope.eventRender = function(event, element, view) {
+                    element.attr({
+                        'tooltip': event.title,
+                        'tooltip-append-to-body': true
+                    });
+                    $compile(element)($scope);
+                };
+                $scope.uiConfig = {
+                    calendar: {
+                        height: 500,
+                        editable: false,
+                        header: {
+                            left: 'title',
+                            center: '',
+                            right: 'today prev,next'
+                        },
+                        eventClick: $scope.eventClick,
+                        eventRender: $scope.eventRender
+                    }
+                };
+                $scope.$on('reportData',function(e,data){
+                    $scope.events = [];
+                    if(data.length){
+                        data.forEach(function(value){
+                            var hasReport = '';
+                            var eventColor = '#00c0ef';
+                            if(value.report){
+                                hasReport = ' (Report submitted)';
+                            }
+                            if(!!value.checkInTime && !value.checkOutTime){
+                                eventColor = '#f0ad4e';
+                            }
+                            else {
+                                eventColor = '#5cb85c';
+                            }
+                            $scope.events.push({
+                                title:value.student.name+hasReport,
+                                start:new Date(value.checkInTime),
+                                allDay:true,
+                                color:eventColor,
+                                id:value._id,
+                            });
+                        });
+                    }
+                    $scope.eventSources.pop();
+                    $scope.eventSources.push($scope.events);
+                });
+                $scope.eventSources = [];
+            }
+        ]);
 })(window.angular);

@@ -2,7 +2,10 @@ var router = require('express').Router();
 var User = require('../models/users');
 var Batch = require('../models/batch');
 var Event = require('../models/event');
+var Status = require('../models/status');
 var passport = require('passport');
+var moment = require('moment');
+
 
 function genPwd(len)
 {
@@ -169,7 +172,7 @@ router.post('/deleteevent',function(req,res,next){
 
 router.get('/eventdata',function(req,res,next){
     var batchId = req.query.batchId;
-    Event.find({batch:batchId}).exec(function(err,queryData){
+    Event.find({batch:batchId}).select('_id batch endDate startDate title type').exec(function(err,queryData){
         res.json(queryData);
     });
 });
@@ -177,6 +180,72 @@ router.get('/eventdata',function(req,res,next){
 router.get('/eventcontent',function(req,res,next){
     var eventId = req.query.eventId;
     Event.findOne({_id:eventId}).exec(function(err,queryData){
+        res.json(queryData);
+    });
+});
+
+router.post('/checkin',function(req,res,next){
+    if(req.user.role == 'student'){
+        Status.find({student:req.user._id.toString(),checkInTime:{$gt:moment().utcOffset(-240).startOf('day').toDate(),$lt:moment().utcOffset(-240).endOf('day').toDate()}}).exec(function(err,queryData){
+            if(!queryData.length){
+                Status.collection.insert({checkInTime:new Date(),student:req.user._id.toString()}).then(function(opt){
+                    res.json({msg:'success'});
+                });
+            }
+            res.json({msg:'unauthorized!'});
+        });
+    }
+    else res.json({msg:'unauthorized!'});
+});
+
+router.post('/checkout',function(req,res,next){
+    if(req.user.role == 'student'){
+        Status.update({student:req.user._id.toString(),checkInTime:{$gt:moment().utcOffset(-240).startOf('day').toDate(),$lt:moment().utcOffset(-240).endOf('day').toDate()}},
+            {checkOutTime:new Date()}).exec(function(){
+            res.json({msg:'success'});
+        });
+    }
+    else res.json({msg:'unauthorized!'});
+});
+
+router.post('/submitreport',function(req,res,next){
+    if(req.user.role == 'student'){
+        Status.update({_id:req.body.statusId,report:null},{report:req.body.report,reportTime:new Date()}).exec(function(){
+            res.json({msg:'success'});
+        });
+    }
+    else res.json({msg:'unauthorized!'});
+});
+
+router.get('/selfstatus',function(req,res,next){
+    if(req.user.role == 'student'){
+        Status.find({student:req.user._id.toString()}).exec(function(err,queryData){
+            res.json(queryData);
+        });
+    }
+    else res.json({msg:'unauthorized!'});
+});
+
+router.post('/allstatus',function(req,res,next){
+    var stuList = req.body.stuList;
+    var cond = {$or:[]};
+    stuList.forEach(function(stuId){
+        if(stuId){
+            cond.$or.push({
+                student:stuId,
+            });
+        }
+    });
+    Status.find(cond).populate('student').exec(function(err,queryData){
+        if(queryData){
+            res.json(queryData);
+        }
+        else res.json([]);
+    });
+});
+
+router.get('/statusdata',function(req,res,next){
+    Status.findOne({_id:req.query.statusId}).populate('student').exec(function(err,queryData){
         res.json(queryData);
     });
 });

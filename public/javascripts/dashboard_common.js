@@ -6,6 +6,22 @@
             return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
         }
     })
+    .filter('now',function(){
+        return function(input){
+            if(input) {
+                return moment(input).format('h:mmA');
+            }
+            return moment().format('h:mmA');
+        }
+    })
+    .filter('localDate',function(){
+        return function(input,format){
+            if(input && format){
+                return moment(input).utcOffset(-240).format(format);
+            }
+            return '';
+        }
+    })
     .factory('sharedData',function(){
         var sharedData={};
         return sharedData;
@@ -29,7 +45,7 @@
                 }
             }
             else if(userData.role == 'student'){
-                $location.url('batch/'+userData.batch+'/training');
+                $location.url('batch/'+userData.batch+'/status');
             }
         }
     }])
