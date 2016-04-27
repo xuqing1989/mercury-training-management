@@ -78,6 +78,7 @@
                                 start: value.startDate,
                                 end: moment(value.endDate).add(1, 'day').toDate(),
                                 id: value._id,
+                                stick:true,
                             });
                         } else if (value.type == 'assignment') {
                             assignmentEvents.events.push({
@@ -85,6 +86,7 @@
                                 start: value.startDate,
                                 end: moment(value.endDate).add(1, 'day').toDate(),
                                 id: value._id,
+                                stick:true,
                             });
                         } else if (value.type == 'quiz') {
                             quizEvents.events.push({
@@ -92,6 +94,7 @@
                                 start: value.startDate,
                                 end: moment(value.endDate).add(1, 'day').toDate(),
                                 id: value._id,
+                                stick:true,
                             });
                         }
                     });
@@ -314,6 +317,7 @@
                             allDay:true,
                             color:eventColor,
                             id:value._id,
+                            stick:true,
                         });
                     });
                 });
