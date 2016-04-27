@@ -3,6 +3,7 @@ var User = require('../models/users');
 var Batch = require('../models/batch');
 var Event = require('../models/event');
 var Status = require('../models/status');
+var mailer = require('../models/mailer');
 var passport = require('passport');
 var moment = require('moment');
 
@@ -49,6 +50,11 @@ router.post('/adduser',function(req,res,next){
             req.body.userdata.password = pwd;
             User.collection.insert(req.body.userdata);
             res.json({password:pwd, msg:'success'});
+            mailer.send({
+                to:req.body.userdata.email,
+                subject:'Welcome to Mercury Systems!',
+                text:'Your password is: ' + pwd,
+            });
         }
         else res.json({msg:'unauthorized!'});
     })(req, res, next);
@@ -60,6 +66,13 @@ router.post('/resetpwd',function(req,res,next) {
             var pwd = genPwd(8);
             User.find({_id:req.body.userdata.id}).update({password:pwd}).exec(function(){
                 res.json({password:pwd,msg:'success'});
+                User.findOne({_id:req.body.userdata.id}).exec(function(err,queryData){
+                    mailer.send({
+                        to:queryData.email,
+                        subject:'Reset passowrd of Mercury Systems',
+                        text:'Your new password is: ' + pwd,
+                    });
+                });
             });
         }
         else res.json({msg:'unauthorized!'});
